@@ -1,0 +1,30 @@
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      SECRET_KEY: change-me-for-local-docker
+      DATABASE_URL: postgresql+psycopg://business:business@db:5432/business_support
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: business_support
+      POSTGRES_USER: business
+      POSTGRES_PASSWORD: business
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U business -d business_support"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:

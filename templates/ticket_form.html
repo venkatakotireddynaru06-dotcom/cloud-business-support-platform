@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}New Ticket{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">SERVICE OPERATIONS</p><h1>Create Support Ticket</h1></div></div>
+<div class="panel form-panel"><form method="post">
+<label>Issue Title *</label><input name="title" required placeholder="Example: Unable to access monthly report">
+<label>Customer *</label><select name="customer_id" required><option value="">Select customer</option>{% for c in customers %}<option value="{{ c.id }}">{{ c.company_name }}</option>{% endfor %}</select>
+<label>Description</label><textarea name="description" rows="5" placeholder="Describe the issue or request..."></textarea>
+<label>Priority</label><select name="priority">{% for p in priorities %}<option>{{ p }}</option>{% endfor %}</select>
+<label>Assign To</label><select name="assigned_to"><option value="">Unassigned</option>{% for u in users %}<option value="{{ u.id }}">{{ u.name }} · {{ u.role }}</option>{% endfor %}</select>
+<div class="actions"><a class="button" href="{{ url_for('tickets') }}">Cancel</a><button class="button primary">Create Ticket</button></div>
+</form></div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Customers{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">CUSTOMERS</p><h1>Customer Directory</h1></div><a class="button primary" href="{{ url_for('new_customer') }}">+ Add Customer</a></div>
+<form class="filters"><input name="q" value="{{ q }}" placeholder="Search company or contact..."><button class="button" type="submit">Search</button></form>
+<div class="panel"><table><thead><tr><th>Company</th><th>Contact</th><th>Email</th><th>Phone</th><th>Industry</th><th></th></tr></thead>
+<tbody>{% for c in customers %}<tr><td><b>{{ c.company_name }}</b></td><td>{{ c.contact_person }}</td><td>{{ c.email }}</td><td>{{ c.phone }}</td><td>{{ c.industry }}</td><td><a href="{{ url_for('edit_customer', customer_id=c.id) }}">Edit</a></td></tr>{% else %}<tr><td colspan="6">No customers found.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

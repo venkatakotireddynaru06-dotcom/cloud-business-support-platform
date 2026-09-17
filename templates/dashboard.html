@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% block title %}Dashboard · Business Support Platform{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">OPERATIONS</p><h1>Business Dashboard</h1><p class="muted">A central view of customer service activity.</p></div><a class="button primary" href="{{ url_for('new_ticket') }}">+ New Ticket</a></div>
+<div class="cards">
+  <div class="card"><span>Active Customers</span><strong>{{ stats.customers }}</strong></div>
+  <div class="card"><span>Open Tickets</span><strong>{{ stats.open }}</strong></div>
+  <div class="card"><span>In Progress</span><strong>{{ stats.progress }}</strong></div>
+  <div class="card"><span>Resolved</span><strong>{{ stats.resolved }}</strong></div>
+  <div class="card alert-card"><span>High Priority Open</span><strong>{{ stats.high }}</strong></div>
+</div>
+<div class="panel">
+  <div class="panel-head"><h2>Recent Support Requests</h2><a href="{{ url_for('tickets') }}">View all</a></div>
+  <table><thead><tr><th>Ticket</th><th>Customer</th><th>Priority</th><th>Status</th><th>Assignee</th></tr></thead>
+  <tbody>{% for t in recent %}<tr>
+    <td><a href="{{ url_for('ticket_detail', ticket_id=t.id) }}"><b>{{ t.ticket_number }}</b></a><br><span class="muted">{{ t.title }}</span></td>
+    <td>{{ t.customer.company_name }}</td><td><span class="badge {{ t.priority|lower }}">{{ t.priority }}</span></td>
+    <td><span class="badge status">{{ t.status }}</span></td><td>{{ t.assignee.name if t.assignee else "Unassigned" }}</td>
+  </tr>{% else %}<tr><td colspan="5">No tickets yet.</td></tr>{% endfor %}</tbody></table>
+</div>
+{% endblock %}

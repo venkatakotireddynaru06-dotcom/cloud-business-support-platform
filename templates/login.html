@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block title %}Login · Business Support Platform{% endblock %}
+{% block content %}
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="logo">BSP</div>
+    <h1>Business Support Platform</h1>
+    <p class="muted">Cloud-ready customer and service operations system</p>
+    <form method="post">
+      <label>Email</label><input type="email" name="email" required placeholder="you@example.com">
+      <label>Password</label><input type="password" name="password" required placeholder="••••••••">
+      <button class="primary full" type="submit">Sign In</button>
+    </form>
+    <div class="demo">
+      <strong>Demo account</strong><br>
+      admin@example.com / Admin@123
+    </div>
+  </div>
+</div>
+{% endblock %}

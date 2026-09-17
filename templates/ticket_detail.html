@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block title %}{{ ticket.ticket_number }}{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">{{ ticket.ticket_number }}</p><h1>{{ ticket.title }}</h1><p class="muted">{{ ticket.customer.company_name }} · Created {{ ticket.created_at.strftime("%d %b %Y %H:%M") }}</p></div><a class="button" href="{{ url_for('tickets') }}">Back to Tickets</a></div>
+<div class="detail-grid">
+<div class="panel"><h2>Issue Details</h2><p>{{ ticket.description or "No description provided." }}</p><hr><h3>Comments</h3>
+{% for c in ticket.comments %}<div class="comment"><b>{{ c.author.name }}</b><span class="muted"> · {{ c.created_at.strftime("%d %b %Y %H:%M") }}</span><p>{{ c.body }}</p></div>{% else %}<p class="muted">No comments yet.</p>{% endfor %}
+<form method="post" action="{{ url_for('add_comment', ticket_id=ticket.id) }}"><textarea name="body" rows="3" placeholder="Add an internal comment..."></textarea><button class="button">Add Comment</button></form></div>
+<div class="panel"><h2>Ticket Controls</h2><form method="post" action="{{ url_for('update_ticket', ticket_id=ticket.id) }}">
+<label>Status</label><select name="status">{% for s in statuses %}<option {{ "selected" if ticket.status==s }}>{{ s }}</option>{% endfor %}</select>
+<label>Priority</label><select name="priority">{% for p in ["Low","Medium","High"] %}<option {{ "selected" if ticket.priority==p }}>{{ p }}</option>{% endfor %}</select>
+<label>Assigned To</label><select name="assigned_to"><option value="">Unassigned</option>{% for u in users %}<option value="{{ u.id }}" {{ "selected" if ticket.assigned_to==u.id }}>{{ u.name }}</option>{% endfor %}</select>
+<button class="button primary full">Update Ticket</button></form></div>
+</div>
+{% endblock %}
